@@ -1,12 +1,36 @@
 import React, { useEffect } from "react";
-import { Button, StyleSheet, View } from "react-native";
+import styled from "styled-components/native";
+import { Button } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-
 import Svg, { Path } from "react-native-svg";
+
+const HomeContainer = styled.View`
+  flex: 1;
+  background-color: #fff;
+  align-items: center;
+`;
+
+const ContentContainer = styled.View`
+  align-items: center;
+  top: 25%;
+`;
+
+const HomeLogoContainer = styled.View`
+  margin-bottom: 20px;
+`;
+const SunSvg = styled(Svg)`
+  height: 135px;
+  width: 135px;
+`;
+const GrassContainer = styled.View`
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+`;
 
 const HomeLogo = () => {
   const fadeIn = useSharedValue(0);
@@ -25,12 +49,12 @@ const HomeLogo = () => {
   }, [fadeIn, slideDown]);
 
   return (
-    <Animated.View style={[styles.homeLogoContainer, animatedStyles]}>
-      <Svg style={styles.homeLogoSvg}>
+    <HomeLogoContainer as={Animated.View} style={animatedStyles}>
+      <SunSvg>
         <Path d="M 10 85 a 60 60 0 1 1 115 0" fill="#E79A16" />
         <Path d="M 10 85 a 60 60 0 0 0 115 0" fill="#D78500" />
-      </Svg>
-    </Animated.View>
+      </SunSvg>
+    </HomeLogoContainer>
   );
 };
 
@@ -48,7 +72,7 @@ const GrassSvg = () => {
   });
 
   return (
-    <Animated.View style={[styles.grassContainer, animatedStyles]}>
+    <GrassContainer as={Animated.View} style={animatedStyles}>
       <Svg viewBox="0 4 13 8">
         <Path d="M 0 3 L 0 8 L 10 8 Z" fill="#CAD2C5" />
         <Path d="M 13 3 L 3 8 L 13 8 Z" fill="#CAD2C5" />
@@ -57,7 +81,7 @@ const GrassSvg = () => {
         <Path d="M 0 6 L 0 12 L 10 12 Z" fill="#52796F" />
         <Path d="M 13 6 L 3 12 L 13 12 Z" fill="#52796F" />
       </Svg>
-    </Animated.View>
+    </GrassContainer>
   );
 };
 
@@ -75,8 +99,8 @@ const HomeScreen = () => {
   }, [fadeIn]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.contentWrapper}>
+    <HomeContainer>
+      <ContentContainer>
         <HomeLogo />
         <Animated.View style={animatedStyles}>
           <Button
@@ -86,34 +110,10 @@ const HomeScreen = () => {
             accessibilityLabel="Continue to genre selection"
           />
         </Animated.View>
-      </View>
+      </ContentContainer>
       <GrassSvg />
-    </View>
+    </HomeContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-  },
-  contentWrapper: {
-    alignItems: "center",
-    top: "25%",
-  },
-  homeLogoContainer: {
-    marginBottom: "20px",
-  },
-  homeLogoSvg: {
-    height: "135px",
-    width: "135px",
-  },
-  grassContainer: {
-    position: "absolute",
-    width: "100%",
-    bottom: 0,
-  },
-});
 
 export default HomeScreen;
