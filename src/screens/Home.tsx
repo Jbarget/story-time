@@ -1,52 +1,31 @@
-import React, { useRef, useEffect } from "react";
-import { Animated, Button, StyleSheet, View } from "react-native";
+import React, { useEffect } from "react";
+import { Button, StyleSheet, View } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
+
 import Svg, { Path } from "react-native-svg";
 
 const HomeLogo = () => {
-  const fadeIn = useRef(new Animated.Value(0)).current;
-  const slideDown = useRef(new Animated.Value(0)).current;
-  const breath = useRef(new Animated.Value(0)).current;
+  const fadeIn = useSharedValue(0);
+  const slideDown = useSharedValue(-50);
+
+  const animatedStyles = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(fadeIn.value, { duration: 3000 }),
+      top: withTiming(slideDown.value, { duration: 3000 }),
+    };
+  });
 
   useEffect(() => {
-    Animated.timing(fadeIn, {
-      toValue: 1,
-      duration: 3000,
-      useNativeDriver: true,
-    }).start();
-    Animated.timing(slideDown, {
-      toValue: 1,
-      duration: 2000,
-      useNativeDriver: true,
-    }).start();
-  }, [fadeIn, breath]);
+    fadeIn.value = 1;
+    slideDown.value = 0;
+  }, [fadeIn, slideDown]);
 
   return (
-    <Animated.View
-      style={[
-        styles.homeLogoContainer,
-        {
-          opacity: fadeIn,
-          transform: [
-            {
-              scaleX: breath.interpolate({
-                inputRange: [0, 0.5, 1],
-                outputRange: [1, 1.1, 1],
-              }),
-            },
-            {
-              scaleY: breath.interpolate({
-                inputRange: [0, 0.5, 1],
-                outputRange: [1, 1.1, 1],
-              }),
-            },
-          ],
-          top: slideDown.interpolate({
-            inputRange: [0, 1],
-            outputRange: ["-50px", "0px"],
-          }),
-        },
-      ]}
-    >
+    <Animated.View style={[styles.homeLogoContainer, animatedStyles]}>
       <Svg style={styles.homeLogoSvg}>
         <Path d="M 10 85 a 60 60 0 1 1 115 0" fill="#E79A16" />
         <Path d="M 10 85 a 60 60 0 0 0 115 0" fill="#D78500" />
@@ -56,18 +35,20 @@ const HomeLogo = () => {
 };
 
 const GrassSvg = () => {
-  const lower = useRef(new Animated.Value(-100)).current; // Initial value for opacity: 0
+  const slideUp = useSharedValue(-100);
 
   useEffect(() => {
-    Animated.timing(lower, {
-      toValue: 0,
-      duration: 3000,
-      useNativeDriver: false,
-    }).start();
-  }, [lower]);
+    slideUp.value = 0;
+  }, [slideUp]);
+
+  const animatedStyles = useAnimatedStyle(() => {
+    return {
+      bottom: withTiming(slideUp.value, { duration: 3000 }),
+    };
+  });
 
   return (
-    <Animated.View style={[styles.grassContainer, { bottom: lower }]}>
+    <Animated.View style={[styles.grassContainer, animatedStyles]}>
       <Svg viewBox="0 4 13 8">
         <Path d="M 0 3 L 0 8 L 10 8 Z" fill="#CAD2C5" />
         <Path d="M 13 3 L 3 8 L 13 8 Z" fill="#CAD2C5" />
@@ -81,21 +62,23 @@ const GrassSvg = () => {
 };
 
 const HomeScreen = () => {
-  const fadeIn = useRef(new Animated.Value(0)).current;
+  const fadeIn = useSharedValue(0);
+
+  const animatedStyles = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(fadeIn.value, { duration: 2000 }),
+    };
+  });
 
   useEffect(() => {
-    Animated.timing(fadeIn, {
-      toValue: 1,
-      duration: 3000,
-      useNativeDriver: true,
-    }).start();
+    fadeIn.value = 1;
   }, [fadeIn]);
 
   return (
     <View style={styles.container}>
       <View style={styles.contentWrapper}>
         <HomeLogo />
-        <Animated.View style={{ opacity: fadeIn }}>
+        <Animated.View style={animatedStyles}>
           <Button
             onPress={() => console.log("clicke")}
             title="Start your story"
