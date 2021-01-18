@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { Button } from "react-native";
 import Animated, {
@@ -7,12 +7,9 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
-
-const HomeContainer = styled.View`
-  flex: 1;
-  background-color: #fff;
-  align-items: center;
-`;
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../../App";
+import ScreenContainer from "../components/ScreenContainer";
 
 const ContentContainer = styled.View`
   align-items: center;
@@ -32,7 +29,9 @@ const GrassContainer = styled.View`
   bottom: 0;
 `;
 
-const HomeLogo = () => {
+const HomeLogo: React.FC<{ isTransitioning: boolean }> = ({
+  isTransitioning,
+}) => {
   const fadeIn = useSharedValue(0);
   const slideDown = useSharedValue(-50);
 
@@ -44,9 +43,14 @@ const HomeLogo = () => {
   });
 
   useEffect(() => {
-    fadeIn.value = 1;
-    slideDown.value = 0;
-  }, [fadeIn, slideDown]);
+    if (isTransitioning) {
+      fadeIn.value = 0;
+      slideDown.value = -50;
+    } else {
+      fadeIn.value = 1;
+      slideDown.value = 0;
+    }
+  }, [fadeIn, slideDown, isTransitioning]);
 
   return (
     <HomeLogoContainer as={Animated.View} style={animatedStyles}>
@@ -58,12 +62,18 @@ const HomeLogo = () => {
   );
 };
 
-const GrassSvg = () => {
-  const slideUp = useSharedValue(-100);
+const GrassSvg: React.FC<{ isTransitioning: boolean }> = ({
+  isTransitioning,
+}) => {
+  const slideUp = useSharedValue(-200);
 
   useEffect(() => {
-    slideUp.value = 0;
-  }, [slideUp]);
+    if (isTransitioning) {
+      slideUp.value = -200;
+    } else {
+      slideUp.value = 0;
+    }
+  }, [slideUp, isTransitioning]);
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
@@ -85,9 +95,11 @@ const GrassSvg = () => {
   );
 };
 
-const HomeScreen = () => {
+const HomeScreen: React.FC<{
+  navigation: StackNavigationProp<RootStackParamList, "Home">;
+}> = ({ navigation }) => {
   const fadeIn = useSharedValue(0);
-
+  const [isTransitioning, setTransition] = useState(false);
   const animatedStyles = useAnimatedStyle(() => {
     return {
       opacity: withTiming(fadeIn.value, { duration: 2000 }),
@@ -98,21 +110,27 @@ const HomeScreen = () => {
     fadeIn.value = 1;
   }, [fadeIn]);
 
+  const handlePress = () => {
+    setTransition(true);
+    fadeIn.value = 0;
+
+    setTimeout(() => navigation.navigate("Genres"), 3000);
+  };
   return (
-    <HomeContainer>
+    <ScreenContainer>
       <ContentContainer>
-        <HomeLogo />
+        <HomeLogo isTransitioning={isTransitioning} />
         <Animated.View style={animatedStyles}>
           <Button
-            onPress={() => console.log("clicke")}
+            onPress={handlePress}
             title="Start your story"
             color="#84A98C"
             accessibilityLabel="Continue to genre selection"
           />
         </Animated.View>
       </ContentContainer>
-      <GrassSvg />
-    </HomeContainer>
+      <GrassSvg isTransitioning={isTransitioning} />
+    </ScreenContainer>
   );
 };
 
