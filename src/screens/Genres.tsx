@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
-import { Text } from "react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import React, { useCallback, useEffect } from "react";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
 import styled from "styled-components/native";
+import { RootStackParamList } from "../../App";
 import ScreenContainer from "../components/ScreenContainer";
 
 const GenreContainer = styled.TouchableOpacity`
@@ -32,7 +33,11 @@ const HeaderText = styled.Text`
   color: white;
 `;
 
-const GenresScreen = () => {
+export type GenreType = "ACTION" | "FANTASY";
+
+const GenresScreen: React.FC<{
+  navigation: StackNavigationProp<RootStackParamList, "Genres">;
+}> = ({ navigation }) => {
   const fadeIn = useSharedValue(0);
   const animatedStyles = useAnimatedStyle(() => {
     return {
@@ -44,12 +49,21 @@ const GenresScreen = () => {
     fadeIn.value = 1;
   }, [fadeIn]);
 
+  const onPress = useCallback(
+    (genre: GenreType) => () => {
+      fadeIn.value = 0;
+
+      setTimeout(() => navigation.navigate("Story", { genre }), 3000);
+    },
+    []
+  );
+
   return (
     <ScreenContainer as={Animated.View} style={animatedStyles}>
-      <TopGenreContainer>
+      <TopGenreContainer onPress={onPress("FANTASY")}>
         <HeaderText>FANTASY</HeaderText>
       </TopGenreContainer>
-      <BottomGenreContainer>
+      <BottomGenreContainer onPress={onPress("ACTION")}>
         <HeaderText>Action</HeaderText>
       </BottomGenreContainer>
     </ScreenContainer>

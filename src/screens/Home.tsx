@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { Button } from "react-native";
 import Animated, {
@@ -110,19 +110,20 @@ const HomeScreen: React.FC<{
     fadeIn.value = 1;
   }, [fadeIn]);
 
-  const handlePress = () => {
+  const onPress = useCallback(() => {
     setTransition(true);
     fadeIn.value = 0;
 
     setTimeout(() => navigation.navigate("Genres"), 3000);
-  };
+  }, []);
+
   return (
     <ScreenContainer>
       <ContentContainer>
         <HomeLogo isTransitioning={isTransitioning} />
         <Animated.View style={animatedStyles}>
           <Button
-            onPress={handlePress}
+            onPress={onPress}
             title="Start your story"
             color="#84A98C"
             accessibilityLabel="Continue to genre selection"
