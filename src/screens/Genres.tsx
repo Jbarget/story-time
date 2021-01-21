@@ -26,11 +26,17 @@ const BottomGenreContainer = styled(GenreContainer)`
   border-color: white;
 `;
 
+const HeaderText = styled.Text`
+  font-family: "LibreBaskerville_400Regular";
+  text-transform: uppercase;
+  color: white;
+`;
+
 const GenresScreen = () => {
   const fadeIn = useSharedValue(0);
   const animatedStyles = useAnimatedStyle(() => {
     return {
-      opacity: withTiming(fadeIn.value, { duration: 2000 }),
+      opacity: withTiming(fadeIn.value, { duration: 1000 }),
     };
   });
 
@@ -41,10 +47,10 @@ const GenresScreen = () => {
   return (
     <ScreenContainer as={Animated.View} style={animatedStyles}>
       <TopGenreContainer>
-        <Text>Fantasy</Text>
+        <HeaderText>FANTASY</HeaderText>
       </TopGenreContainer>
       <BottomGenreContainer>
-        <Text>Action</Text>
+        <HeaderText>Action</HeaderText>
       </BottomGenreContainer>
     </ScreenContainer>
   );

@@ -1039,6 +1039,11 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.5.tgz#77211291c1900a700b8a78cfafda3160d76949ed"
   integrity sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
 
+"@expo-google-fonts/libre-baskerville@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/libre-baskerville/-/libre-baskerville-0.1.0.tgz#42b46cab4eacbcbe197dc942b64b5a23ee2a759e"
+  integrity sha512-XvviYKQQCyMi0fwkr40Q5iw3MD1Z9J/DX0I6jxEFrIkR9pOcEaJTOwnF5WQ99/Nk9MmFdrqeJ91FRQqF2ax8dg==
+
 "@expo/babel-preset-cli@0.2.18":
   version "0.2.18"
   resolved "https://registry.yarnpkg.com/@expo/babel-preset-cli/-/babel-preset-cli-0.2.18.tgz#136acf8a0efe259e29ebc614b68552e5acb47d86"
