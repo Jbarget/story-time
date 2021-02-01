@@ -8,6 +8,7 @@ import {
   useFonts,
   LibreBaskerville_400Regular,
 } from "@expo-google-fonts/libre-baskerville";
+import { Roboto_400Regular } from "@expo-google-fonts/roboto";
 import StoryScreen from "./src/screens/Story";
 
 export type RootStackParamList = {
@@ -21,6 +22,7 @@ const Stack = createStackNavigator<RootStackParamList>();
 const App = () => {
   let [fontsLoaded] = useFonts({
     LibreBaskerville_400Regular,
+    Roboto_400Regular,
   });
 
   if (!fontsLoaded) {

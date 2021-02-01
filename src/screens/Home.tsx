@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components/native";
-import { Button } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -10,6 +9,7 @@ import Svg, { Path } from "react-native-svg";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../../App";
 import ScreenContainer from "../components/ScreenContainer";
+import Button from "../components/Button";
 
 const ContentContainer = styled.View`
   align-items: center;
@@ -125,7 +125,6 @@ const HomeScreen: React.FC<{
           <Button
             onPress={onPress}
             title="Start your story"
-            color="#84A98C"
             accessibilityLabel="Continue to genre selection"
           />
         </Animated.View>

@@ -53,7 +53,7 @@ const GenresScreen: React.FC<{
     (genre: GenreType) => () => {
       fadeIn.value = 0;
 
-      setTimeout(() => navigation.navigate("Story", { genre }), 3000);
+      setTimeout(() => navigation.navigate("Story", { genre }), 1000);
     },
     []
   );
