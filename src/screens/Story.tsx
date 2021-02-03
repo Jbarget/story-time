@@ -92,7 +92,7 @@ const splitWordsByPage = () => {
   }, []);
 };
 
-const StoryScreen: React.FC<StoryScreenProps> = ({ _route, navigation }) => {
+const StoryScreen: React.FC<StoryScreenProps> = ({ navigation }) => {
   // route.params.genre
   const [page, setPage] = useState(0);
   const [words, _setWords] = useState(splitWordsByPage());
@@ -113,14 +113,17 @@ const StoryScreen: React.FC<StoryScreenProps> = ({ _route, navigation }) => {
 
   useEffect(() => {
     fadeInIntro.value = 1;
-    setTimeout(() => {
+    const introTimeout = setTimeout(() => {
       fadeInIntro.value = 0;
     }, INTRO_SHOWN_DURATION);
+
+    return clearTimeout(introTimeout);
   }, [fadeInIntro]);
 
   useEffect(() => {
+    let wordsFadeInTimeout: NodeJS.Timeout | undefined;
     if (page === 0) {
-      setTimeout(() => {
+      wordsFadeInTimeout = setTimeout(() => {
         setShowIntro(false);
         fadeInWords.value = 1;
       }, INTRO_SHOWN_DURATION + ANIMATION_DURATION);
@@ -128,13 +131,19 @@ const StoryScreen: React.FC<StoryScreenProps> = ({ _route, navigation }) => {
       fadeInWords.value = 1;
     }
 
-    setTimeout(() => {
+    const wordsFadeOutTimeout = setTimeout(() => {
       fadeInWords.value = 0;
     }, INTRO_SHOWN_DURATION + ANIMATION_DURATION + WORDS_SHOWN_DURATION);
 
-    setTimeout(() => {
+    const nextPageTimeout = setTimeout(() => {
       setPage(page + 1);
     }, INTRO_SHOWN_DURATION + ANIMATION_DURATION + WORDS_SHOWN_DURATION + ANIMATION_DURATION);
+
+    return () => {
+      wordsFadeInTimeout && clearTimeout(wordsFadeInTimeout);
+      clearTimeout(wordsFadeOutTimeout);
+      clearTimeout(nextPageTimeout);
+    };
   }, [page]);
 
   const onPress = useCallback(() => navigation.navigate("Home"), []);
