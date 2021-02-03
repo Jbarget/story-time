@@ -29,8 +29,8 @@ const GrassContainer = styled.View`
   bottom: 0;
 `;
 
-const HomeLogo: React.FC<{ isTransitioning: boolean }> = ({
-  isTransitioning,
+const HomeLogo: React.FC<{ isChangingPage: boolean }> = ({
+  isChangingPage,
 }) => {
   const fadeIn = useSharedValue(0);
   const slideDown = useSharedValue(-50);
@@ -43,14 +43,14 @@ const HomeLogo: React.FC<{ isTransitioning: boolean }> = ({
   });
 
   useEffect(() => {
-    if (isTransitioning) {
+    if (isChangingPage) {
       fadeIn.value = 0;
       slideDown.value = -50;
     } else {
       fadeIn.value = 1;
       slideDown.value = 0;
     }
-  }, [fadeIn, slideDown, isTransitioning]);
+  }, [fadeIn, slideDown, isChangingPage]);
 
   return (
     <HomeLogoContainer as={Animated.View} style={animatedStyles}>
@@ -62,18 +62,18 @@ const HomeLogo: React.FC<{ isTransitioning: boolean }> = ({
   );
 };
 
-const GrassSvg: React.FC<{ isTransitioning: boolean }> = ({
-  isTransitioning,
+const GrassSvg: React.FC<{ isChangingPage: boolean }> = ({
+  isChangingPage,
 }) => {
   const slideUp = useSharedValue(-200);
 
   useEffect(() => {
-    if (isTransitioning) {
+    if (isChangingPage) {
       slideUp.value = -200;
     } else {
       slideUp.value = 0;
     }
-  }, [slideUp, isTransitioning]);
+  }, [slideUp, isChangingPage]);
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
@@ -99,7 +99,7 @@ const HomeScreen: React.FC<{
   navigation: StackNavigationProp<RootStackParamList, "Home">;
 }> = ({ navigation }) => {
   const fadeIn = useSharedValue(0);
-  const [isTransitioning, setTransition] = useState(false);
+  const [isChangingPage, setTransition] = useState(false);
   const animatedStyles = useAnimatedStyle(() => {
     return {
       opacity: withTiming(fadeIn.value, { duration: 2000 }),
@@ -120,7 +120,7 @@ const HomeScreen: React.FC<{
   return (
     <ScreenContainer>
       <ContentContainer>
-        <HomeLogo isTransitioning={isTransitioning} />
+        <HomeLogo isChangingPage={isChangingPage} />
         <Animated.View style={animatedStyles}>
           <Button
             onPress={onPress}
@@ -129,7 +129,7 @@ const HomeScreen: React.FC<{
           />
         </Animated.View>
       </ContentContainer>
-      <GrassSvg isTransitioning={isTransitioning} />
+      <GrassSvg isChangingPage={isChangingPage} />
     </ScreenContainer>
   );
 };
