@@ -95,7 +95,7 @@ const splitWordsByPage = () => {
 const StoryScreen: React.FC<StoryScreenProps> = ({ navigation }) => {
   // route.params.genre
   const [page, setPage] = useState(0);
-  const [words, _setWords] = useState(splitWordsByPage());
+  const [words] = useState(splitWordsByPage());
   const [showIntro, setShowIntro] = useState(true);
   const fadeInIntro = useSharedValue(0);
   const fadeInWords = useSharedValue(0);
@@ -117,8 +117,8 @@ const StoryScreen: React.FC<StoryScreenProps> = ({ navigation }) => {
       fadeInIntro.value = 0;
     }, INTRO_SHOWN_DURATION);
 
-    return clearTimeout(introTimeout);
-  }, [fadeInIntro]);
+    return () => clearTimeout(introTimeout);
+  }, []);
 
   useEffect(() => {
     let wordsFadeInTimeout: NodeJS.Timeout | undefined;

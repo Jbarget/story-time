@@ -7,6 +7,7 @@ import Animated, {
 } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { useFocusEffect } from "@react-navigation/native";
 import { RootStackParamList } from "../../App";
 import ScreenContainer from "../components/ScreenContainer";
 import Button from "../components/Button";
@@ -42,15 +43,17 @@ const HomeLogo: React.FC<{ isChangingPage: boolean }> = ({
     };
   });
 
+  useFocusEffect(() => {
+    fadeIn.value = 1;
+    slideDown.value = 0;
+  });
+
   useEffect(() => {
     if (isChangingPage) {
       fadeIn.value = 0;
       slideDown.value = -50;
-    } else {
-      fadeIn.value = 1;
-      slideDown.value = 0;
     }
-  }, [fadeIn, slideDown, isChangingPage]);
+  }, [isChangingPage]);
 
   return (
     <HomeLogoContainer as={Animated.View} style={animatedStyles}>
@@ -66,14 +69,15 @@ const GrassSvg: React.FC<{ isChangingPage: boolean }> = ({
   isChangingPage,
 }) => {
   const slideUp = useSharedValue(-200);
+  useFocusEffect(() => {
+    slideUp.value = 0;
+  });
 
   useEffect(() => {
     if (isChangingPage) {
       slideUp.value = -200;
-    } else {
-      slideUp.value = 0;
     }
-  }, [slideUp, isChangingPage]);
+  }, [isChangingPage]);
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
@@ -99,22 +103,27 @@ const HomeScreen: React.FC<{
   navigation: StackNavigationProp<RootStackParamList, "Home">;
 }> = ({ navigation }) => {
   const fadeIn = useSharedValue(0);
-  const [isChangingPage, setTransition] = useState(false);
+  const [isChangingPage, setIsChangingPage] = useState(false);
   const animatedStyles = useAnimatedStyle(() => {
     return {
       opacity: withTiming(fadeIn.value, { duration: 2000 }),
     };
   });
 
-  useEffect(() => {
+  useFocusEffect(() => {
     fadeIn.value = 1;
-  }, [fadeIn]);
+  });
+
+  useEffect(() => {
+    if (isChangingPage) {
+      fadeIn.value = 0;
+    }
+  }, [isChangingPage]);
 
   const onPress = useCallback(() => {
-    setTransition(true);
-    fadeIn.value = 0;
+    setIsChangingPage(true);
 
-    setTimeout(() => navigation.navigate("Genres"), 3000);
+    setTimeout(() => navigation.navigate("Genres"), 2000);
   }, []);
 
   return (
