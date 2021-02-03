@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components/native";
-import { Button } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -8,8 +7,10 @@ import Animated, {
 } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { useFocusEffect } from "@react-navigation/native";
 import { RootStackParamList } from "../../App";
 import ScreenContainer from "../components/ScreenContainer";
+import Button from "../components/Button";
 
 const ContentContainer = styled.View`
   align-items: center;
@@ -29,8 +30,8 @@ const GrassContainer = styled.View`
   bottom: 0;
 `;
 
-const HomeLogo: React.FC<{ isTransitioning: boolean }> = ({
-  isTransitioning,
+const HomeLogo: React.FC<{ isChangingPage: boolean }> = ({
+  isChangingPage,
 }) => {
   const fadeIn = useSharedValue(0);
   const slideDown = useSharedValue(-50);
@@ -42,15 +43,17 @@ const HomeLogo: React.FC<{ isTransitioning: boolean }> = ({
     };
   });
 
+  useFocusEffect(() => {
+    fadeIn.value = 1;
+    slideDown.value = 0;
+  });
+
   useEffect(() => {
-    if (isTransitioning) {
+    if (isChangingPage) {
       fadeIn.value = 0;
       slideDown.value = -50;
-    } else {
-      fadeIn.value = 1;
-      slideDown.value = 0;
     }
-  }, [fadeIn, slideDown, isTransitioning]);
+  }, [isChangingPage]);
 
   return (
     <HomeLogoContainer as={Animated.View} style={animatedStyles}>
@@ -62,18 +65,19 @@ const HomeLogo: React.FC<{ isTransitioning: boolean }> = ({
   );
 };
 
-const GrassSvg: React.FC<{ isTransitioning: boolean }> = ({
-  isTransitioning,
+const GrassSvg: React.FC<{ isChangingPage: boolean }> = ({
+  isChangingPage,
 }) => {
   const slideUp = useSharedValue(-200);
+  useFocusEffect(() => {
+    slideUp.value = 0;
+  });
 
   useEffect(() => {
-    if (isTransitioning) {
+    if (isChangingPage) {
       slideUp.value = -200;
-    } else {
-      slideUp.value = 0;
     }
-  }, [slideUp, isTransitioning]);
+  }, [isChangingPage]);
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
@@ -99,37 +103,42 @@ const HomeScreen: React.FC<{
   navigation: StackNavigationProp<RootStackParamList, "Home">;
 }> = ({ navigation }) => {
   const fadeIn = useSharedValue(0);
-  const [isTransitioning, setTransition] = useState(false);
+  const [isChangingPage, setIsChangingPage] = useState(false);
   const animatedStyles = useAnimatedStyle(() => {
     return {
       opacity: withTiming(fadeIn.value, { duration: 2000 }),
     };
   });
 
-  useEffect(() => {
+  useFocusEffect(() => {
     fadeIn.value = 1;
-  }, [fadeIn]);
+  });
 
-  const handlePress = () => {
-    setTransition(true);
-    fadeIn.value = 0;
+  useEffect(() => {
+    if (isChangingPage) {
+      fadeIn.value = 0;
+    }
+  }, [isChangingPage]);
 
-    setTimeout(() => navigation.navigate("Genres"), 3000);
-  };
+  const onPress = useCallback(() => {
+    setIsChangingPage(true);
+
+    setTimeout(() => navigation.navigate("Genres"), 2000);
+  }, []);
+
   return (
     <ScreenContainer>
       <ContentContainer>
-        <HomeLogo isTransitioning={isTransitioning} />
+        <HomeLogo isChangingPage={isChangingPage} />
         <Animated.View style={animatedStyles}>
           <Button
-            onPress={handlePress}
+            onPress={onPress}
             title="Start your story"
-            color="#84A98C"
             accessibilityLabel="Continue to genre selection"
           />
         </Animated.View>
       </ContentContainer>
-      <GrassSvg isTransitioning={isTransitioning} />
+      <GrassSvg isChangingPage={isChangingPage} />
     </ScreenContainer>
   );
 };
