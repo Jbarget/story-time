@@ -9,6 +9,7 @@ import styled from "styled-components/native";
 import { RootStackParamList } from "../../App";
 import ScreenContainer from "../components/ScreenContainer";
 
+// TODO: style this so it doesn't look horrendous
 const GenreContainer = styled.TouchableOpacity`
   flex: 1;
   width: 100%

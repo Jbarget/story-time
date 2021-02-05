@@ -9,7 +9,6 @@ import styled from "styled-components/native";
 import { RootStackParamList } from "../../App";
 import Button from "../components/Button";
 import ScreenContainer from "../components/ScreenContainer";
-import { generateRandomNumber } from "../helpers";
 import dictionary from "../story-words";
 
 const StoryContainer = styled(ScreenContainer)`
@@ -60,8 +59,8 @@ const StoryWord = styled.Text<{
 `;
 
 const Word = (word: string) => {
-  const randomFontSize = generateRandomNumber() * 1.2 + 1;
-  const randomValue = Math.round(generateRandomNumber() * 80);
+  const randomFontSize = Math.random() * 1.2 + 1;
+  const randomValue = Math.round(Math.random() * 80);
 
   return (
     <StoryWord key={word} fontSize={randomFontSize} padding={randomValue}>
@@ -93,7 +92,9 @@ const splitWordsByPage = () => {
 };
 
 const StoryScreen: React.FC<StoryScreenProps> = ({ navigation }) => {
+  // TODO: show different story words based on the genre selected
   // route.params.genre
+
   const [page, setPage] = useState(0);
   const [words] = useState(splitWordsByPage());
   const [showIntro, setShowIntro] = useState(true);
