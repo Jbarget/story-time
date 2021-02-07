@@ -19,12 +19,12 @@ const GenreContainer = styled.TouchableOpacity`
 `;
 
 const TopGenreContainer = styled(GenreContainer)`
-  border-bottom-width: 1;
+  border-bottom-width: 1px;
   border-color: white;
 `;
 
 const BottomGenreContainer = styled(GenreContainer)`
-  border-top-width: 1;
+  border-top-width: 1px;
   border-color: white;
 `;
 
