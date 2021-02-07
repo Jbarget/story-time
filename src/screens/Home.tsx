@@ -121,7 +121,10 @@ const HomeScreen: React.FC<{
   const onPress = useCallback(() => {
     setIsChangingPage(true);
 
-    setTimeout(() => navigation.navigate("Genres"), 2000);
+    setTimeout(() => {
+      setIsChangingPage(false);
+      navigation.navigate("Genres");
+    }, 2000);
   }, []);
 
   return (
