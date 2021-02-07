@@ -4,16 +4,16 @@ import styled from "styled-components/native";
 
 const StyledButton = styled.TouchableOpacity`
   background-color: #84a98c;
-  padding: 8px 16px;
+  padding: 8 16;
   text-transform: uppercase;
-  border-radius: 2px;
+  border-radius: 2;
 `;
 
 const StyledText = styled.Text`
   font-family: Roboto_400Regular;
-  letter-spacing: 1px;
+  letter-spacing: 1;
   color: white;
-  font-size: 18px;
+  font-size: 18;
 `;
 
 interface ButtonProps {

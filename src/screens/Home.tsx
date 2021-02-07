@@ -18,11 +18,11 @@ const ContentContainer = styled.View`
 `;
 
 const HomeLogoContainer = styled.View`
-  margin-bottom: 20px;
+  margin-bottom: 20;
 `;
 const SunSvg = styled(Svg)`
-  height: 135px;
-  width: 135px;
+  height: 135;
+  width: 135;
 `;
 const GrassContainer = styled.View`
   width: 100%;
