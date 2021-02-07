@@ -15,7 +15,7 @@ const StoryContainer = styled(ScreenContainer)`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 1em 0.5em;
+  padding: 16px 8px;
   height: 100%;
 `;
 
@@ -24,7 +24,7 @@ const WordsContainer = styled.View`
   height: 95%;
   width: 100%;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 `;
 
@@ -43,7 +43,7 @@ const HomeButton = styled(Button)`
 const Intro = styled.Text<{ showIntro: boolean }>`
   display: ${props => (props.showIntro ? "flex" : "none")};
   font-family: "LibreBaskerville_400Regular";
-  font-size: 1.2em;
+  font-size: 20px;
 `;
 
 const StoryWord = styled.Text<{
@@ -51,15 +51,14 @@ const StoryWord = styled.Text<{
   padding?: number;
 }>`
   font-family: "LibreBaskerville_400Regular";
-  font-size: ${props => props.fontSize}em;
+  font-size: ${props => props.fontSize}px;
   padding-bottom: ${props => props.padding}px;
   flex-shrink: 1;
-  height: fit-content;
-  margin: 0.2em;
+  margin: 4px;
 `;
 
 const Word = (word: string) => {
-  const randomFontSize = Math.random() * 1.2 + 1;
+  const randomFontSize = Math.random() * 24 + 16;
   const randomValue = Math.round(Math.random() * 80);
 
   return (
