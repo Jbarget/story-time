@@ -25,9 +25,7 @@ const SunSvg = styled(Svg)`
   width: 135px;
 `;
 const GrassContainer = styled.View`
-  position: absolute;
   width: 100%;
-  bottom: 0;
 `;
 
 const HomeLogo: React.FC<{ isChangingPage: boolean }> = ({
@@ -68,14 +66,14 @@ const HomeLogo: React.FC<{ isChangingPage: boolean }> = ({
 const GrassSvg: React.FC<{ isChangingPage: boolean }> = ({
   isChangingPage,
 }) => {
-  const slideUp = useSharedValue(-200);
+  const slideUp = useSharedValue(-400);
   useFocusEffect(() => {
-    slideUp.value = 0;
+    slideUp.value = -200;
   });
 
   useEffect(() => {
     if (isChangingPage) {
-      slideUp.value = -200;
+      slideUp.value = -400;
     }
   }, [isChangingPage]);
 
