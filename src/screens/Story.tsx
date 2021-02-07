@@ -15,19 +15,20 @@ const StoryContainer = styled(ScreenContainer)`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 16px 8px;
+  padding: 16 8;
   height: 100%;
 `;
 
 const WordsContainer = styled.View`
   flex-direction: row;
-  height: 95%;
+  height: 90%;
   width: 100%;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
 `;
 
+// TODO: fix styling so there is no overlap between button and StoryWords
 const ContentContainer = styled.View<{ showContent: boolean }>`
   display: ${props => (props.showContent ? "flex" : "none")};
   align-items: center;
@@ -37,13 +38,13 @@ const ContentContainer = styled.View<{ showContent: boolean }>`
 
 const HomeButton = styled(Button)`
   position: absolute;
-  bottom: 5%;
+  bottom: 10%;
 `;
 
 const Intro = styled.Text<{ showIntro: boolean }>`
   display: ${props => (props.showIntro ? "flex" : "none")};
   font-family: "LibreBaskerville_400Regular";
-  font-size: 20px;
+  font-size: 20;
 `;
 
 const StoryWord = styled.Text<{
@@ -51,10 +52,10 @@ const StoryWord = styled.Text<{
   padding?: number;
 }>`
   font-family: "LibreBaskerville_400Regular";
-  font-size: ${props => props.fontSize}px;
-  padding-bottom: ${props => props.padding}px;
+  font-size: ${props => props.fontSize};
+  padding-bottom: ${props => props.padding};
   flex-shrink: 1;
-  margin: 4px;
+  margin: 4;
 `;
 
 const Word = (word: string) => {
